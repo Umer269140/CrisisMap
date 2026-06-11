@@ -7,13 +7,14 @@
 
     </header>
 
+    
     <body style="font-family: Arial, sans-serif; color: #333; margin-right:30px; text-align: center;">
 
-        <form action="" method="post";style="margin-right:30px, text-align: center;">
+        <form id="userForm">
 
              <div style="margin-left: 37px; text-align: center; ">
                 <label for="name"; text-align: centre;>Name </label>      
-                <input placeholder="Umer">
+                <input id="name" required placeholder="Umer">
             </div>
    
             <br>
@@ -27,7 +28,7 @@
 
              <div style="margin-top: 30px; margin-left: 37px;">
                 <label for = Emergency> Emergency: </label>
-                <textarea placeholder="Please describe the emergency situation..." ></textarea>
+                <textarea id="Emergency" required placeholder="Please describe the emergency situation..." ></textarea>
              </div>    
 
              <br margin-top = 30px>
@@ -38,16 +39,42 @@
             </div>
 
              <br>
+            <button  type="button" onclick="fetchData()" style="margin-top: 20px;width: 100px;height: 35px;font-family: Arial, sans-serif;  background-color: #ea0000;border-radius: 5px;border: none; color: white;cursor: pointer;" >Submit</button>
 
-            <button style="margin-top: 20px;width: 100px;font-family: Arial, sans-serif; color: #000000; background-color: #fafafa; Text-decoration: underline;" >Submit</button>
 
         </form>
 
-
+         
+        <script>
+            async function fetchData() {
+                const message = document.getElementById("Emergency").value;
+                const location = document.getElementById("Location").value;
+                const name = document.getElementById("name").value;
+                const response = await fetch('http://127.0.0.1:5000/api/score', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        location: location,
+                        name: name
+                    })
+                });
+                const result = await response.json();
+                console.log(result);
+                window.location.href = 'Afterform.html';
+            }
+    
+                                    
+            
+        </script>
+       
 
     </body>
 
 
 </html>
+
 
 
