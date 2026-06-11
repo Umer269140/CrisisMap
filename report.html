@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+    <header style="position: fixed;">
+        <h1 style="font-family: sans-serif; margin-left: 560px;position: fixed;color: white;background-color: red;">
+            Reports
+        </h1>
+        <img src="Logo.png" alt="Logo" width="150px" height="75">
+    </header>
+
+    <body>
+        <div id="reports-container">Awaiting emergency data streams...</div>
+    </body>
+
+
+
+
+</html>
+
+
+
+
+
+<script>
+    fetch('/api/reports', {
+        method: 'GET',
+       
+      })
+    .then(response =>response.json())
+    .then(data => {
+        console.log(data);
+
+    const container = document.getElementById('reports-container');    
+    container.innerHTML = '';
+
+    data.forEach(report => { 
+        const card = document.createElement('div');
+        card.style.border = "1px solid #ccc";
+        card.style.margin = "10px 0";
+        card.style.padding = "15px";
+        card.style.borderRadius = "5px";
+
+
+        card.innerHTML = `
+            <h3>${report.incident_english} (${report.incident_urdu})</h3>
+            <p><strong>Reporter:</strong> ${report.name}</p>
+            <p><strong>Reason:</strong> ${report.reason}</p>
+            <p><strong>Location:</strong> ${report.location_english}</p>
+            <p><strong>Urdu Location:</strong> ${report.location_urdu}</p>`;
+
+        container.appendChild(card);
+
+
+     
+       
+        
+    
+    });
+
+
+ }) 
+
+    .catch(error => console.error('Error fetching reports:', error));
+
+
+
+
+
+</script>
