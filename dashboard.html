@@ -1,0 +1,172 @@
+<!--This is the dashboard, this will be only accessible to the departments-->
+<!DOCTYPE html>
+<html>
+<head>
+    <style>   
+        /* Ensures the page takes full height and uses Flexbox to push the footer */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: sans-serif;
+        }
+
+        .header-section {
+            padding: 10px;
+        }
+
+        .main-content {
+            flex: 1; /* This pushes the footer to the bottom */
+            padding: 20px;
+        }
+
+        footer {
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Centers the button horizontally */
+        }
+        .user_message {
+            display: block;
+            text-align: right;
+            padding: 5px;
+            background-color: gray;  
+        }
+
+        
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header-section">
+        <h1 style="display: flex;position: fixed;margin-left: 520px;">CrisisMap</h1>
+        
+        
+    <img src="Logo.png" style="width: 100px; height: 50px;margin-top: 10px;">
+    </div>
+
+    <p>
+        ______________________________________________________________________________________________________________________________________________
+    </p>
+
+
+
+    <div class="main-content">
+        <p style="font-size: medium; font-style: italic;">
+            <ol>
+                <li>Press Report Button to check the official submissions.</li>
+                <li>Chat with AI to gain knowledge of the incidents by pressing chat button.</li>
+                <li>Check Map for colored pins.</li>
+                <li>Check the table on the side to verify which locations need urgent help.</li>
+            </ol>
+        </p>
+    </div>
+
+
+    <div id="reports-list"></div>
+
+
+
+         <footer>
+
+             <a href="http://127.0.0.1:5000/report.html" style="display: inline-block; text-align: center; line-height: 35px; width:100px; height: 35px; border-radius: 5px; border: none; cursor: pointer; background-color: red; color: white; text-decoration: none;">
+                 Report
+            </a> <!--Okay so report button leads to /api/report route-->  
+
+         <div style="bottom: 20px;left: 20px;position: fixed;display: flex;flex-direction:column; align-items: flex-start;gap:10px">
+
+            <img id="chatbot" src="Bot Icon.png" style="width: 50px;height: 50px;cursor: pointer;"> <!--chatbot icon-->
+
+
+            <div id="chat-container" style="display: none;background-color: rgb(255, 47, 47);width: 350px;height: 170px;color: white;flex-direction: column;overflow: hidden;box-shadow: 0px 4px 10px rgba(0,0,0,0.3) ;">
+            
+
+                <div id="chat-messages" style="flex: 1;overflow-y: auto;padding: 10px;display: flex;flex-direction: column;gap: 8px;">
+                </div>
+                  <div style="display: flex;align-items: center;padding: 10px; background-color: black;gap: 10px;">
+
+                        <input id="search" placeholder="Ask a question" style="flex: 1; height:30px; padding: 0 10px; border-radius: 5px;border: none;outline: none;">
+                        <button id="send" style="padding: 0 15px; height: 30px; cursor: pointer; background-color: black;color: white;border-radius: 5px;border:none;font-weight: bold;white-space: nowrap;">
+                             Send
+
+                         </button> 
+                         ``
+                         <!--Chatbot has no backend, i have just created it in the front, to ensure that the person or the departments can connect it with OpenAI using JavaScript -->
+
+
+
+
+                
+
+
+           </div>
+
+        </div>
+
+        
+        </footer>
+
+
+    </body>
+
+
+        
+       
+
+        
+
+  
+
+    <script>
+        const icon = document.getElementById('chatbot');
+        const chatpanel = document.getElementById('chat-container');
+        const chatMessagesLog = document.getElementById('chat-messages');
+        function chatinterface() {
+          if (chatpanel.style.display === "none"|| chatpanel.style.display ==="") {
+            chatpanel.style.display = "flex"
+         }
+         else {chatpanel.style.display = "none"} 
+
+        } //okay so this script is for closing and opening of the chatbox. I could not figure out to click on screen and close the box.//
+
+         icon.addEventListener("click",chatinterface)
+
+
+        const searchbox = document.getElementById('search') //Grabbing the elements//
+        const sendbutton = document.getElementById('send')
+        sendbutton.addEventListener('click', function() {
+             const extractext = searchbox.value //Empty the searchbox//
+             searchbox.value = "" 
+ 
+
+        const Bubble = document.createElement('p') //This was created using Gemini, I identified a problem that new message in the chat was replacing the old one.
+        Bubble.textContent = extractext
+        Bubble.classList.add('user_message')
+        chatMessagesLog.appendChild(Bubble) 
+
+             });      
+
+        
+        
+
+    
+    </script>
+
+
+<script>
+    
+      fetch(report.html);
+</script>
+
+    
+
+    
+    
+<!--I thought about adding map in the dashboard, but found difficulty and coordinates are hard coded-->
+
+</html>
+
