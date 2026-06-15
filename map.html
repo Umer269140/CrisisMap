@@ -1,0 +1,89 @@
+<!--Map is used from leatleaf-->>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+
+
+</head>
+
+
+
+<body>
+
+     <div id = "map" >
+     </div>
+
+     <script>
+        var map = L.map('map').setView([24.8607, 67.0011], 12); //hardcoded coordinates
+        L.tileLayer('https://api.maptiler.com/maps/streets-v4/256/{z}/{x}/{y}.png?key=ynpws2VP7JWl1y11nF8w',{
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+
+        }).addTo(map);
+
+       
+
+        fetch('http://127.0.0.1:5000/api/reports', {  //This is the route of reports, map.html will fectj the location coordinate from here.
+                                                      // Earlier i didt added longitude and latitude elements
+                                                      //But the coordinates will be same, as it is hardcoded
+
+            method: 'GET',
+        })
+        .then(response =>response.json() )
+        .then(data => {
+          console.log(data);  
+
+        data.forEach(report => {
+    let chosenIconUrl;
+    let score = parseInt(report.score);
+
+    // 1. Assign colors dynamically based on the score ranges
+    if (score >= 5) {
+        chosenIconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png';
+    } else if (score >= 3) {
+        // This will now catch scores of 3 AND 4 perfectly!
+        chosenIconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png';
+    } else {
+        // Fallback default for scores of 1, 2, or anything else
+        chosenIconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png';
+    }
+        
+    // 2. Pass the validated URL to your icon definition
+    const customIcon = L.icon({
+        iconUrl: chosenIconUrl,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34]
+    });
+    
+    // 3. Render the marker on the map safely
+    if (!isNaN(report.latitude) && !isNaN(report.longitude)) {
+        L.marker([parseFloat(report.latitude), parseFloat(report.longitude)], { icon: customIcon })
+         .addTo(map)
+         .bindPopup(`<b>${report.incident_english}</b><br>Severity: ${score}`);
+    }
+});  
+
+                
+
+        }) //Help from AI too in this script, i wrote and messed up//
+
+        </script> 
+</body>
+
+
+
+</html>
