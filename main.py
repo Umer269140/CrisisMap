@@ -3,8 +3,10 @@ import re
 from openai import OpenAI
 from flask_cors import CORS
 import os
+from geopy.geocoders import Nominatim
 
 reports = []
+
 
 os.environ["OPENAI_API_KEY"] = "sk-xx"
 client = OpenAI()
@@ -12,6 +14,13 @@ app = Flask(__name__, template_folder='.', static_folder='.', static_url_path=''
 import json
 CORS(app, origins="*")
 
+
+
+   
+    
+
+
+#api score, it collects the data, reports it to report route
 @app.route('/api/score', methods=['POST'])
 def score():
     data = request.get_json()
@@ -19,7 +28,7 @@ def score():
     location = data.get('location')
     user_name = data.get('name')
 
-   
+   #prompt for AI, model is nano, OpenAI
     prompt=f"""
          You are an emergency management assistant. Analyze the following form entry and generate a clean JSON output.
             
@@ -37,9 +46,12 @@ def score():
                 "incident_urdu": "Translate nthe brief incident summary of the incident into clean Urdu script ",
                 "reason": "Categorize the hazard (e.g., Fire Outbreak, Medical Emegency, Road Accident)",
                 "name": "The Reporter Name provided above"
+                "coordinates": "Longitude and Latitude of Location"
+                
 
 
             }}
+            After obtaining location, convert that location into coordinates and present it.
 
             No markdown formatting, no backticks, no trailing text-just the raw JSON string.
 
@@ -54,7 +66,7 @@ def score():
   
 
     parsed = json.loads(response.output_text)
-
+#So I have updated the fields in the report. I have added Longitude and Latitude because map.html needs it to drop the pin.
     reports.append({
         'message': user_message,
         'score': parsed['score'],
@@ -63,7 +75,9 @@ def score():
         'incident_english': parsed['incident_english'],
         'incident_urdu': parsed['incident_urdu'],
         'reason': parsed['reason'],
-        'name': parsed['name']
+        'name': parsed['name'],
+        'latitude': parsed.get('latitude', 24.8607),
+        'longitude': parsed.get('longitude', 67.0011),
     })
     
     print(response.output_text)
@@ -74,18 +88,21 @@ def score():
 
 
 
+
+
+#this is the report route, so I rendered it on report.html
 @app.route('/reports')
 def report_page():
     return render_template('report.html')
 
 
 
-
+#this is original route, i have created it long before rendering it to report.html.
 @app.route('/api/reports', methods=['GET'])
 def get_reports():
     return jsonify(reports)
 
-
+#This was suggested by AI for automatic reloading when detected change in terminal.
 if __name__ == '__main__':
     app.run(debug=True)
 
