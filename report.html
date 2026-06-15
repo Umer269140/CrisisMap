@@ -1,7 +1,8 @@
+<!--This is where the data is saved-->
 <!DOCTYPE html>
 <html>
 
-    <header style="position: fixed;">
+    <header style="position: relative;">
         <h1 style="font-family: sans-serif; margin-left: 560px;position: fixed;color: white;background-color: red;">
             Reports
         </h1>
@@ -9,7 +10,35 @@
     </header>
 
     <body>
-        <div id="reports-container">Awaiting emergency data streams...</div>
+        <div id="reports-list"></div>
+
+
+
+      <script>
+    fetch('http://127.0.0.1:5000/api/reports') //the route//
+        .then(response => response.json())
+        .then(data => {
+            const listContainer = document.getElementById('reports-list');
+            listContainer.innerHTML = ''; // Clear out the layout before loading //
+            
+            data.forEach(report => {    //The Elements//
+                listContainer.innerHTML += `
+                    <div style="border: 1px solid #ccc; margin: 10px; padding: 10px; border-radius: 5px;">
+                        <h3>${report.incident_english || 'Incident'}</h3>
+                        <p><strong>Incident (Urdu):</strong> ${report.incident_urdu || 'N/A'}</p>
+                        <p><strong>Location:</strong> ${report.location_english || 'N/A'}</p>
+                        <p><strong>Location (Urdu):</strong> ${report.location_urdu || 'N/A'}</p>
+                        <p><strong>Coordinates:</strong> ${report.latitude}, ${report.longitude}</p>
+                        <p><strong>Severity:</strong> ${report.score}</p>
+                        <p><strong>Reason:</strong> ${report.reason || 'N/A'}</p>
+                        <p><strong>Reported By:</strong> ${report.name || 'Anonymous'}</p>
+                        <p><strong>Message:</strong> ${report.message || 'N/A'}</p>
+                    </div>
+                `;
+            });
+        })
+        .catch(err => console.error('Error fetching reports:', err)); //for errors//
+</script>
     </body>
 
 
@@ -21,49 +50,3 @@
 
 
 
-<script>
-    fetch('/api/reports', {
-        method: 'GET',
-       
-      })
-    .then(response =>response.json())
-    .then(data => {
-        console.log(data);
-
-    const container = document.getElementById('reports-container');    
-    container.innerHTML = '';
-
-    data.forEach(report => { 
-        const card = document.createElement('div');
-        card.style.border = "1px solid #ccc";
-        card.style.margin = "10px 0";
-        card.style.padding = "15px";
-        card.style.borderRadius = "5px";
-
-
-        card.innerHTML = `
-            <h3>${report.incident_english} (${report.incident_urdu})</h3>
-            <p><strong>Reporter:</strong> ${report.name}</p>
-            <p><strong>Reason:</strong> ${report.reason}</p>
-            <p><strong>Location:</strong> ${report.location_english}</p>
-            <p><strong>Urdu Location:</strong> ${report.location_urdu}</p>`;
-
-        container.appendChild(card);
-
-
-     
-       
-        
-    
-    });
-
-
- }) 
-
-    .catch(error => console.error('Error fetching reports:', error));
-
-
-
-
-
-</script>
