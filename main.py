@@ -28,41 +28,30 @@ def score():
     location = data.get('location')
     user_name = data.get('name')
 
-   #prompt for AI, model is nano, OpenAI
-    prompt=f"""
-         You are an emergency management assistant. Analyze the following form entry and generate a clean JSON output.
-            
-            Form Entries:
-            - Reporter Name: {user_name}
-            - Inputted Location: {location if location else 'Not specified'}
-            - Emergency Situation: {user_message}
+   CRISIS_ANALYSIS_INSTRUCTIONS = """
+            You are a disaster response classification engine.
 
-            Return ONLY with these exact keys:
-            {{
-                "score": (number 1-5 evaluting severity),
-                "location_english": "The inputted location or location details parsed from message in English",
-                "location_urdu": "Translate the location name/details into clean Urdu script",
-                "incident_english": "A brief summary of the incident in English",
-                "incident_urdu": "Translate nthe brief incident summary of the incident into clean Urdu script ",
-                "reason": "Categorize the hazard (e.g., Fire Outbreak, Medical Emegency, Road Accident)",
-                "name": "The Reporter Name provided above"
-                "coordinates": "Longitude and Latitude of Location"
-                
+            Analyze emergency reports and return structured data.
+
+            Required fields:
+            - severity_level
+            - emergency_category
+            - recommended_action
+            - confidence_score
 
 
-            }}
-            After obtaining location, convert that location into coordinates and present it.
-
-            No markdown formatting, no backticks, no trailing text-just the raw JSON string.
-
-        
-        """
+            Return ONLY a valid JSON object.
+            Do not include markdown.
+            Do not include explanations.
+            Do not add extra keys.
+            """
 
 
     response = client.responses.create(
         model="gpt-4.1-nano",
-        input=prompt
+        input=CRISIS_ANALYSIS_INSTRUCTIONS
         )   
+  
   
 
     parsed = json.loads(response.output_text)
