@@ -7,16 +7,20 @@ from geopy.geocoders import Nominatim
 
 reports = [
     
-    name
-    emergency
-    severity
-    latitude
-    longitude
-
+    'message' ''
+    'score' ''
+    'location_english' ''
+    'location_urdu' ''
+    'incident_english' ''
+    'incident_urdu' ''
+    'reason' ''
+    'name' ''
+    'latitude' ''
+    'longitude'  ''
 ]
 
 
-os.environ["OPENAI_API_KEY"] = "sk-xx"
+os.environ["OPENAI_API_KEY"] = "sk-"
 client = OpenAI()
 app = Flask(__name__, template_folder='.', static_folder='.', static_url_path='')
 import json
@@ -36,16 +40,25 @@ def score():
     location = data.get('location')
     user_name = data.get('name')
 
-   CRISIS_ANALYSIS_INSTRUCTIONS = """
+   
+         
+
+    CRISIS_ANALYSIS_INSTRUCTIONS = """
             You are a disaster response classification engine.
 
             Analyze emergency reports and return structured data.
 
             Required fields:
-            - severity_level
-            - emergency_category
-            - recommended_action
-            - confidence_score
+           - message (string)
+           - score (integer from 1 to 5)
+           - location_english (string)
+           - location_urdu (string)
+           - incident_english (string)
+           - incident_urdu (string)
+           - reason (string)
+           - name (string)
+           - latitude (float)
+           - longitude (float)
 
 
             Return ONLY a valid JSON object.
@@ -60,23 +73,21 @@ def score():
         input=CRISIS_ANALYSIS_INSTRUCTIONS
         )   
   
+
     crisis_analyses = json.loads(response.output_text)
 #So I have updated the fields in the report. I have added Longitude and Latitude because map.html needs it to drop the pin.
     reports.append({
         'message':  user_message,
-        'score': crisis_analyses['score'],
-        'location_english': crisis_analyses['location_english'],
-        'location_urdu': crisis_analyses['location_urdu'],
-        'incident_english': crisis_analyses['incident_english'],
-        'incident_urdu': crisis_analyses['incident_urdu'],
-        'reason': crisis_analyses['reason'],
-        'name': crisis_analyses['name'],
+        'score': crisis_analyses.get('score'),
+        'location_english': crisis_analyses.get('location_english'),
+        'location_urdu': crisis_analyses.get('location_urdu'),
+        'incident_english': crisis_analyses.get('incident_english'),
+        'incident_urdu': crisis_analyses.get('incident_urdu'),
+        'reason': crisis_analyses.get('reason'),
+        'name': crisis_analyses.get('name'),
         'latitude': crisis_analyses.get('latitude', 24.8607),
         'longitude': crisis_analyses.get('longitude', 67.0011),
     })
-      
-
-   
     
     print(response.output_text)
     return jsonify({'reply': response.output_text})
@@ -100,7 +111,7 @@ def report_page():
 def get_reports():
     return jsonify(reports)
 
-#This was suggested by AI for automatic reloading when detected change in terminal.
+#Automatic Reloading
 if __name__ == '__main__':
     app.run(debug=True)
 
