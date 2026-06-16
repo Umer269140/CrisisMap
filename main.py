@@ -5,7 +5,15 @@ from flask_cors import CORS
 import os
 from geopy.geocoders import Nominatim
 
-reports = []
+reports = [
+    
+    name
+    emergency
+    severity
+    latitude
+    longitude
+
+]
 
 
 os.environ["OPENAI_API_KEY"] = "sk-xx"
