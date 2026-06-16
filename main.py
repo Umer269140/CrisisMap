@@ -37,7 +37,7 @@ def score():
             - Inputted Location: {location if location else 'Not specified'}
             - Emergency Situation: {user_message}
 
-            Return ONLY a raw JSON object with these exact keys:
+            Return ONLY with these exact keys:
             {{
                 "score": (number 1-5 evaluting severity),
                 "location_english": "The inputted location or location details parsed from message in English",
