@@ -52,22 +52,23 @@ def score():
         input=CRISIS_ANALYSIS_INSTRUCTIONS
         )   
   
-  
-
-    parsed = json.loads(response.output_text)
+    crisis_analyses = json.loads(response.output_text)
 #So I have updated the fields in the report. I have added Longitude and Latitude because map.html needs it to drop the pin.
     reports.append({
-        'message': user_message,
-        'score': parsed['score'],
-        'location_english': parsed['location_english'],
-        'location_urdu': parsed['location_urdu'],
-        'incident_english': parsed['incident_english'],
-        'incident_urdu': parsed['incident_urdu'],
-        'reason': parsed['reason'],
-        'name': parsed['name'],
-        'latitude': parsed.get('latitude', 24.8607),
-        'longitude': parsed.get('longitude', 67.0011),
+        'message':  user_message,
+        'score': crisis_analyses['score'],
+        'location_english': crisis_analyses['location_english'],
+        'location_urdu': crisis_analyses['location_urdu'],
+        'incident_english': crisis_analyses['incident_english'],
+        'incident_urdu': crisis_analyses['incident_urdu'],
+        'reason': crisis_analyses['reason'],
+        'name': crisis_analyses['name'],
+        'latitude': crisis_analyses.get('latitude', 24.8607),
+        'longitude': crisis_analyses.get('longitude', 67.0011),
     })
+      
+
+   
     
     print(response.output_text)
     return jsonify({'reply': response.output_text})
