@@ -21,13 +21,11 @@
             const listContainer = document.getElementById('reports-list');
             listContainer.innerHTML = ''; 
             
-            data.forEach(report => {   //the Elements//
+            data.forEach(report => {    //The Elements//
                 listContainer.innerHTML += `
                     <div style="border: 1px solid #ccc; margin: 10px; padding: 10px; border-radius: 5px;">
                         <h3>${report.incident_english || 'Incident'}</h3>
-                        <p><strong>Incident (Urdu):</strong> ${report.incident_urdu || 'N/A'}</p>
                         <p><strong>Location:</strong> ${report.location_english || 'N/A'}</p>
-                        <p><strong>Location (Urdu):</strong> ${report.location_urdu || 'N/A'}</p>
                         <p><strong>Coordinates:</strong> ${report.latitude}, ${report.longitude}</p>
                         <p><strong>Severity:</strong> ${report.score}</p>
                         <p><strong>Reason:</strong> ${report.reason || 'N/A'}</p>
