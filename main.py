@@ -17,18 +17,28 @@ reports = [
     'name' ''
     'latitude' ''
     'longitude'  ''
+    'Phone Number' ''
 ]
 
 
-os.environ["OPENAI_API_KEY"] = "sk-"
+os.environ["OPENAI_API_KEY"] = "sk-xx"
 client = OpenAI()
+geolocator = Nominatim(user_agent="crisismap")
 app = Flask(__name__, template_folder='.', static_folder='.', static_url_path='')
 import json
 CORS(app, origins="*")
 
 
 
-   
+# if geocoding fails (no internet) we fall back!
+def get_coordinates(place_name):
+    try:
+        location = geolocator.geocode(place_name, timeout=5)
+        if location:
+            return location.latitude, location.longitude
+    except Exception as e:
+        print("geocoding failed:", e)
+    return 24.8607, 67.0011 
     
 
 
@@ -52,13 +62,12 @@ def score():
            - message (string)
            - score (integer from 1 to 5)
            - location_english (string)
-           - location_urdu (string)
            - incident_english (string)
-           - incident_urdu (string)
            - reason (string)
            - name (string)
            - latitude (float)
            - longitude (float)
+           - Phone Number (integer)
 
 
             Return ONLY a valid JSON object.
@@ -70,23 +79,24 @@ def score():
 
     response = client.responses.create(
         model="gpt-4.1-nano",
-        input=CRISIS_ANALYSIS_INSTRUCTIONS
+        instructions=CRISIS_ANALYSIS_INSTRUCTIONS,
+        input=f"Report message: {user_message}\nReported location: {location}\nReporter name: {user_name}"
         )   
   
 
     crisis_analyses = json.loads(response.output_text)
+    lat, lon = get_coordinates(crisis_analyses.get('location_english'))
 #So I have updated the fields in the report. I have added Longitude and Latitude because map.html needs it to drop the pin.
     reports.append({
         'message':  user_message,
         'score': crisis_analyses.get('score'),
         'location_english': crisis_analyses.get('location_english'),
-        'location_urdu': crisis_analyses.get('location_urdu'),
         'incident_english': crisis_analyses.get('incident_english'),
-        'incident_urdu': crisis_analyses.get('incident_urdu'),
         'reason': crisis_analyses.get('reason'),
         'name': crisis_analyses.get('name'),
-        'latitude': crisis_analyses.get('latitude', 24.8607),
-        'longitude': crisis_analyses.get('longitude', 67.0011),
+        'latitude': lat,
+        'longitude': lon,
+        'phone': crisis_analyses.get('Phone Number')
     })
     
     print(response.output_text)
@@ -120,4 +130,6 @@ if __name__ == '__main__':
 
     
          
+
+
 
