@@ -34,12 +34,9 @@
 
              <br margin-top = 30px>
 
-            <div style="margin-top: 30px; margin-left: 37px;">
-             <label for = Message>Phone Number: </label>
-              <textarea placeholder="+92 3456754321" id="Message" name="Message"></textarea>
-            </div>
+            
 
-             <br>
+             
             <button  type="button" onclick="fetchData()" style="margin-top: 20px;width: 100px;height: 35px;font-family: Arial, sans-serif;  background-color: #ea0000;border-radius: 5px;border: none; color: white;cursor: pointer;" >Submit</button>
 
 
@@ -51,6 +48,7 @@
                 const message = document.getElementById("Emergency").value;
                 const location = document.getElementById("Location").value;
                 const name = document.getElementById("name").value;
+                const phone = document.getElementById("phone").value;
                 const response = await fetch('http://127.0.0.1:5000/api/score', {
                     method: 'POST',
                     headers: {
@@ -59,7 +57,7 @@
                     body: JSON.stringify({
                         message: message,
                         location: location,
-                        name: name
+                        name: name,
                     })
                 });
                 const result = await response.json();
@@ -76,6 +74,5 @@
 
 
 </html>
-
 
 
