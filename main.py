@@ -5,23 +5,10 @@ from flask_cors import CORS
 import os
 from geopy.geocoders import Nominatim
 
-reports = [
-    
-    'message' ''
-    'score' ''
-    'location_english' ''
-    'location_urdu' ''
-    'incident_english' ''
-    'incident_urdu' ''
-    'reason' ''
-    'name' ''
-    'latitude' ''
-    'longitude'  ''
-    'Phone Number' ''
-]
+reports = []
 
 
-os.environ["OPENAI_API_KEY"] = "sk-xx"
+os.environ["OPENAI_API_KEY"] = "sk-"
 client = OpenAI()
 geolocator = Nominatim(user_agent="crisismap")
 app = Flask(__name__, template_folder='.', static_folder='.', static_url_path='')
@@ -33,7 +20,8 @@ CORS(app, origins="*")
 # if geocoding fails (no internet) we fall back!
 def get_coordinates(place_name):
     try:
-        location = geolocator.geocode(place_name, timeout=5)
+        location = geolocator.geocode(place_name, timeout=5, country_codes='pk')
+        print(f"Geocoding '{place_name}' -> {location}")
         if location:
             return location.latitude, location.longitude
     except Exception as e:
@@ -49,6 +37,7 @@ def score():
     user_message = data.get('message')
     location = data.get('location')
     user_name = data.get('name')
+  
 
    
          
@@ -67,7 +56,7 @@ def score():
            - name (string)
            - latitude (float)
            - longitude (float)
-           - Phone Number (integer)
+           
 
 
             Return ONLY a valid JSON object.
@@ -84,7 +73,11 @@ def score():
         )   
   
 
-    crisis_analyses = json.loads(response.output_text)
+    try:
+        crisis_analyses = json.loads(response.output_text)
+    except json.JSONDecodeError:
+         print("Model didn't return valid JSON:", response.output_text)
+         return jsonify({'error': 'Could not process this report. Please try again.'}), 500
     lat, lon = get_coordinates(crisis_analyses.get('location_english'))
 #So I have updated the fields in the report. I have added Longitude and Latitude because map.html needs it to drop the pin.
     reports.append({
@@ -96,7 +89,7 @@ def score():
         'name': crisis_analyses.get('name'),
         'latitude': lat,
         'longitude': lon,
-        'phone': crisis_analyses.get('Phone Number')
+       
     })
     
     print(response.output_text)
@@ -130,6 +123,4 @@ if __name__ == '__main__':
 
     
          
-
-
 
