@@ -8,7 +8,6 @@ from geopy.geocoders import Nominatim
 reports = []
 
 
-os.environ["OPENAI_API_KEY"] = "sk-"
 client = OpenAI()
 geolocator = Nominatim(user_agent="crisismap")
 app = Flask(__name__, template_folder='.', static_folder='.', static_url_path='')
