@@ -6,8 +6,11 @@ CrisisMap is a platform where users can fill a for to report an emergency, then 
 ## Here are some screenshots of my project:
 
 <img width="536" height="401" alt="picture 1 of CrisisMap" src="https://github.com/user-attachments/assets/19cb1d55-7d4e-4289-96b5-87b284fff983" />
+
 <img width="935" height="398" alt="picture 2 of CrisisMap" src="https://github.com/user-attachments/assets/30e90712-d5da-4522-ae40-f34df5f9165d" />
+
 <img width="937" height="292" alt="picture 3 of CrisisMap" src="https://github.com/user-attachments/assets/7a416997-ba28-4486-b8db-32efd2d23e23" />
+
 <img width="959" height="410" alt="picture 4 of CrisisMap" src="https://github.com/user-attachments/assets/a633d85d-02b4-430c-a0ff-ab17c5fb50ee" />
 
 ## Tech Stack
