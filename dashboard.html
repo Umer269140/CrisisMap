@@ -3,7 +3,7 @@
 <html>
 <head>
     <style>   
-
+        
         body {
             margin: 0;
             padding: 0;
@@ -18,7 +18,7 @@
         }
 
         .main-content {
-            flex: 1;
+            flex: 1; 
             padding: 20px;
         }
 
@@ -56,7 +56,7 @@
 
 
     <div class="main-content">
-        <p style="font-size: medium; font-style: italic;">
+        <p style="font-size: medium; font-style: san-serif;">
             <ol>
                 <li>Press Report Button to check the official submissions.</li>
                 <li>Chat with AI to gain knowledge of the incidents by pressing chat button.</li>
@@ -79,7 +79,7 @@
 
          <div style="bottom: 20px;left: 20px;position: fixed;display: flex;flex-direction:column; align-items: flex-start;gap:10px">
 
-            <img id="chatbot" src="Bot Icon.png" style="width: 50px;height: 50px;cursor: pointer;"> 
+            <img id="chatbot" src="Bot Icon.png" style="width: 50px;height: 50px;cursor: pointer;"> <!--chatbot icon-->
 
 
             <div id="chat-container" style="display: none;background-color: rgb(255, 47, 47);width: 350px;height: 170px;color: white;flex-direction: column;overflow: hidden;box-shadow: 0px 4px 10px rgba(0,0,0,0.3) ;">
@@ -136,14 +136,14 @@
          icon.addEventListener("click",chatinterface)
 
 
-        const searchbox = document.getElementById('search') //Grabbing the elements//
+        const searchbox = document.getElementById('search') 
         const sendbutton = document.getElementById('send')
         sendbutton.addEventListener('click', function() {
-             const extractext = searchbox.value //Empty the searchbox//
+             const extractext = searchbox.value 
              searchbox.value = "" 
  
 
-        const Bubble = document.createElement('p') 
+        const Bubble = document.createElement('p') //I identified a problem that new message in the chat was replacing the old one.
         Bubble.textContent = extractext
         Bubble.classList.add('user_message')
         chatMessagesLog.appendChild(Bubble) 
