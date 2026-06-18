@@ -1,4 +1,4 @@
-Okay so many people and the team who will review this project might think that i have not recived any errors, or havent faced any problems, because out of my 37 commits, only 22 explains what changes I did.
+Okay so many people and the team who will review this project might think that i have not recived any errors, or havent faced any problems, because out of my 38 commits, only 23 explains what changes I did.
 Honestly I never tried to undertand commit in Github and thats why i often dont wrote descriptions, even in other repositories which were created way before this one.
 So here were the problems I faced and how I debug them:
 Okay so the first problem i recieved was that in my report route, i was not recieving full data, i tried updating the function but didnt had any effect so I tried updating the prompt which fixed the issue.
