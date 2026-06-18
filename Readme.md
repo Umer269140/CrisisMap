@@ -32,9 +32,15 @@ There is a chatbot in dashboard, only has frontend, no backend, so no AI, so no 
 Once the report data comes to report.html, then map.html automatically fetches the coordinates and a score. it drops an specific colour pin to the coordinates.
 
 ## AI vs Non AI
-In 2026, the thing of generating AI code is a thing which gets a person flagged, so let me explain of in my project, what AI has written, because clarifying this is very important, not just me being flagged by HackClub Horizon team but people who will come and will see this repository.
-The form and 90% of the frontned is written by me, whereas AI Assistance was taken in Javascript functions, but I want to clear one thing, AI Assistance was taken like understanding or debugging with AI, now AI writing full functions.
-In the backend, the score function, in that function AI Assistance was taken, also in geocoding, but there was very little assistance in score function, and a good amount of assistance in geocoding function.
+The frontend: HTML/CSS/JS 
+the form,
+the map rendering,
+report display was written by me.
+For the backend, I used AI assistance to help implement two specific pieces:
+The OpenAI scoring function score() in main.py and the geocoding fallback logic get_coordinates().
+I went through several rounds of debugging these including a bug where the AI model was never actually receiving the user's submitted message.
+Fixing each one by inquiring about actual output, not just accepting code that looked right. 
+The problems_and_debugging file documents that process in detail.
 
 
 
