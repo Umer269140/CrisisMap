@@ -113,6 +113,10 @@ def report_page():
 def get_reports():
     return jsonify(reports)
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 #Automatic Reloading
 if __name__ == '__main__':
     app.run(debug=True)
