@@ -1,7 +1,7 @@
 # CrisisMap
 
 ## Description
-CrisisMap is a platform where users can fill a for to report an emergency, then the departments such as fire brigade, rescue organizations can see the report. OpenAI will score the emergency out of 5, based on the location in the form, coordinates will be extracted, at that coordinates, based on the score, an specific colour pin will be dropped.
+CrisisMap is a platform where users can fill a for to report an emergency, then the departments such as fire brigade, rescue organizations can see the report. OpenAI will score the emergency out of 5, based on the location in the form, coordinates will be extracted, at that coordinates, based on the score, an specific colour pin will be dropped. This is a project for  #horizons.
 
 ## Here are some screenshots of my project:
 
@@ -30,6 +30,7 @@ Once it is all fullfilled,OpenAI model gives the emergency score out of 5, this 
 Now it is not required to see the report by manually opening the report.html, instead dashboard.html is a concept serve for departments, there is a report button which leads to report.html.
 There is a chatbot in dashboard, only has frontend, no backend, so no AI, so no reply.
 Once the report data comes to report.html, then map.html automatically fetches the coordinates and a score. it drops an specific colour pin to the coordinates.
+One thing is necessary to explain, that i am giving different links in how to use it section, the concept is that dashboard, report and map are the things which should be not accessible by a normal user, they are for departments, but as I dont have authentication and login, so i have given all the links.
 
 ## AI vs Non AI
 The frontend: HTML/CSS/JS 
@@ -37,11 +38,16 @@ the form,
 the map rendering,
 report display was written by me.
 For the backend, I used AI assistance to help implement two specific pieces:
-The OpenAI scoring function score() in main.py and the geocoding fallback logic get_coordinates().
+The OpenAI scoring function score() in main.py and the geocoding fallback logic.
 I went through several rounds of debugging these including a bug where the AI model was never actually receiving the user's submitted message.
 Fixing each one by inquiring about actual output, not just accepting code that looked right. 
 The problems_and_debugging file documents that process in detail.
 
+## How to use it
+Its very simple to use it, first headover to this link: https://crisismap.umer-pc.hackclub.app/, this is the form.
+To view the dashboard, headover here: https://crisismap.umer-pc.hackclub.app/dashboard.html.
+Inside dashboard, there is report button, which leads to report.html, still if want to check report.html seprately, then head over to this link: https://crisismap.umer-pc.hackclub.app/report.html.
+To view the map, head over to this link: https://crisismap.umer-pc.hackclub.app/map.html.
 
 
 
