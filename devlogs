@@ -4,4 +4,4 @@ So here were the problems I faced and how I debug them:
 Okay so the first problem i recieved was that in my report route, i was not recieving full data, i tried updating the function but didnt had any effect so I tried updating the prompt which fixed the issue.
 Second problem was that when i created report.html, it was running on flask backend route which was 5500 while my report route was running at 5000, i rendered the report.html to the 5000 route, removing Flask one.
 One more problem was that in dashboard.html, the report button was leading to report but that route was again Flask one, while if i open report.html, there i can see the reports. I rendered report.html in the report button in the dashboard.html and the problem was fixed.
-One more thing was the chatbot, i found it difficult making it function so i just made the frontend. There were many other issues, and those 20 commits proved it.
+One more thing was the chatbot, i found it difficult making it function so i just made the frontend. There were many other issues, and those commits proved it.
