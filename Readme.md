@@ -29,7 +29,8 @@ Okay so it works and the start is when a user fills a form, now he fills his nam
 Once it is all fullfilled,OpenAI model gives the emergency score out of 5, this is based on the message by the reporter, then the data goes to a route which name is report, that report route is rendered with report.html. 
 Now it is not required to see the report by manually opening the report.html, instead dashboard.html is a concept serve for departments, there is a report button which leads to report.html.
 There is a chatbot in dashboard, only has frontend, no backend, so no AI, so no reply.
-Once the report data comes to report.html, then map.html automatically fetches the coordinates and a score. it drops an specific colour pin to the coordinates.
+Once the report data comes to report.html, then map.html automatically fetches the coordinates and a score. it drops an specific colour pin to the coordinates. Map will drop red pins at score 5, yellow at score 3 and 4, green at score 1. 
+If same location, then new pin will replaced old one.
 One thing is necessary to explain, that i am giving different links in how to use it section, the concept is that dashboard, report and map are the things which should be not accessible by a normal user, they are for departments, but as I dont have authentication and login, so i have given all the links.
 
 ## AI vs Non AI
