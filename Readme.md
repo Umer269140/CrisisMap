@@ -31,7 +31,7 @@ Now it is not required to see the report by manually opening the report.html, in
 There is a chatbot in dashboard, only has frontend, no backend, so no AI, so no reply.
 Once the report data comes to report.html, then map.html automatically fetches the coordinates and a score. it drops an specific colour pin to the coordinates. Map will drop red pins at score 5, yellow at score 3 and 4, green at score 1. 
 If same location, then new pin will replaced old one.
-One thing is necessary to explain, that i am giving different links in how to use it section, the concept is that dashboard, report and map are the things which should be not accessible by a normal user, they are for departments, but as I dont have authentication and login, so i have given all the links.
+One thing is necessary to explain, that i have added navigation of map and dahsboard in afterform, also map in dashboard,reports are accessible through report button in dashboard, the concept is that dashboard, report and map are the things which should be not accessible by a normal user, they are for departments, but as I dont have authentication and login, so i have given all the navigation.
 
 ## AI vs Non AI
 The frontend: HTML/CSS/JS 
@@ -45,10 +45,13 @@ Fixing each one by inquiring about actual output, not just accepting code that l
 The problems_and_debugging file documents that process in detail.
 
 ## How to use it
-Its very simple to use it, first headover to this link: https://crisismap.umer-pc.hackclub.app/, this is the form.
-To view the dashboard, headover here: https://crisismap.umer-pc.hackclub.app/dashboard.html.
-Inside dashboard, there is report button, which leads to report.html, still if want to check report.html seprately, then head over to this link: https://crisismap.umer-pc.hackclub.app/report.html.
-To view the map, head over to this link: https://crisismap.umer-pc.hackclub.app/map.html.
+Its very simple to use it, first headover to this link: https://crisismap.umer-pc.hackclub.app/, this is the form. After submitting the form, the user will be leaded to Afterform.html, where user can navigate to dashboard.html, where user can access reports by clicking the report button. Map is accessible by navigating from Afterform.html or dashboard.html.
+If anyone wants to visit direct links, then here are these:
+https://crisismap.umer-pc.hackclub.app/report.html (reports(If it dosent show reports immediately, make sure to refresh the page)
+https://crisismap.umer-pc.hackclub.app/map.html (map)
+https://crisismap.umer-pc.hackclub.app/index.html (form)
+https://crisismap.umer-pc.hackclub.app/Afterform.html (Afterform)
+https://crisismap.umer-pc.hackclub.app/dashboard.html (dashboard)
 
 
 
