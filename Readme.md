@@ -31,7 +31,7 @@ Now it is not required to see the report by manually opening the report.html, in
 There is a chatbot in dashboard, only has frontend, no backend, so no AI, so no reply.
 Once the report data comes to report.html, then map.html automatically fetches the coordinates and a score. it drops an specific colour pin to the coordinates. Map will drop red pins at score 5, yellow at score 3 and 4, green at score 1. 
 If same location, then new pin will replaced old one.
-One thing is necessary to explain, that i have added navigation of map and dahsboard in afterform, also map in dashboard,reports are accessible through report button in dashboard, the concept is that dashboard, report and map are the things which should be not accessible by a normal user, they are for departments, but as I dont have authentication and login, so i have given all the navigation.
+One thing is necessary to explain, that i have added navigation of map and dahsboard in afterform, also map in dashboard,reports are accessible through report button in dashboard, the concept is that dashboard, report and map are the things which should be not accessible by a normal user, they are for departments, but as I dont have authentication and login, so i have given all the navigation. There is a limitation which is that the get corrdinates function have country code pk due to which it cant extract coordinates outside of Pakistan, so it will try fallback which is an harcoded coordinates and will drop pin there. Also try to add location which is inside karachi because the geopy will have difficulties in extracting coordinates outside of the city because i have made this project my city focused!
 
 ## AI vs Non AI
 The frontend: HTML/CSS/JS 
