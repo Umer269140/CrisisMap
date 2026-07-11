@@ -1,129 +1,128 @@
-from flask import Flask, request, jsonify, render_template
-import re
-from openai import OpenAI
-from flask_cors import CORS
-import os
-from geopy.geocoders import Nominatim
+<!DOCTYPE html>
+<html>
 
-reports = []
+    <header style="text-align: center;position: sticky;padding-top: 10px;">
 
+        <h1>WeatherDrop</h1>
 
-client = OpenAI()
-geolocator = Nominatim(user_agent="crisismap")
-app = Flask(__name__, template_folder='.', static_folder='.', static_url_path='')
-import json
-CORS(app, origins="*")
+        <p>_______________________________________________________________________________________________________________________________________________________________</p>
+
+        
+
+    </header>
 
 
 
-# if geocoding fails (no internet) we fall back!
-def get_coordinates(place_name):
-    try:
-        location = geolocator.geocode(place_name, timeout=5, country_codes='pk')
-        print(f"Geocoding '{place_name}' -> {location}")
-        if location:
-            return location.latitude, location.longitude
-    except Exception as e:
-        print("geocoding failed:", e)
-    return 24.8607, 67.0011 
-    
+    <body style="background-color: lightblue;">
 
+        <button id="5dayforecast" style="height: 40px;position: relative;background-color: transparent;color: white;border: none;cursor: pointer;font-size: medium;font-weight: bold;">
+            Get the temperature for the next 5 days
 
-#api score, it collects the data, reports it to report route
-@app.route('/api/score', methods=['POST'])
-def score():
-    data = request.get_json()
-    user_message = data.get('message')
-    location = data.get('location')
-    user_name = data.get('name')
-  
+        </button>
 
-   
-         
+        <p id="5daytemp"></p>
+      
 
-    CRISIS_ANALYSIS_INSTRUCTIONS = """
-            You are a disaster response classification engine.
+        <div style="margin-left: 520px;margin-top: 50px;display: flex;gap: 10px;align-items: center;position: relative;">
 
-            Analyze emergency reports and return structured data.
+            <input id="cityInput" placeholder="New York" style="border-radius: 5px;width: 200px;padding: 5px;height: 30px;">
 
-            Required fields:
-           - message (string)
-           - score (integer from 1 to 5)
-           - location_english (string)
-           - incident_english (string)
-           - reason (string)
-           - name (string)
-           - latitude (float)
-           - longitude (float)
            
 
+            <button id="weather" style="border: none;cursor: pointer;width: 40px;background-color: lightblue;">
+                  <img src="Search Icon.png" style="width: 60px;">
+            </button>
+          
+        </div>
 
-            Return ONLY a valid JSON object.
-            Do not include markdown.
-            Do not include explanations.
-            Do not add extra keys.
-            """
-
-
-    response = client.responses.create(
-        model="gpt-4.1-nano",
-        instructions=CRISIS_ANALYSIS_INSTRUCTIONS,
-        input=f"Report message: {user_message}\nReported location: {location}\nReporter name: {user_name}"
-        )   
-  
-
-    try:
-        crisis_analyses = json.loads(response.output_text)
-    except json.JSONDecodeError:
-         print("Model didn't return valid JSON:", response.output_text)
-         return jsonify({'error': 'Could not process this report. Please try again.'}), 500
-    lat, lon = get_coordinates(crisis_analyses.get('location_english'))
-#So I have updated the fields in the report. I have added Longitude and Latitude because map.html needs it to drop the pin.
-    reports.append({
-        'message':  user_message,
-        'score': crisis_analyses.get('score'),
-        'location_english': crisis_analyses.get('location_english'),
-        'incident_english': crisis_analyses.get('incident_english'),
-        'reason': crisis_analyses.get('reason'),
-        'name': crisis_analyses.get('name'),
-        'latitude': lat,
-        'longitude': lon,
-       
-    })
-    
-    print(response.output_text)
-    return jsonify({'reply': response.output_text})
-
-
-
-
-
-
-
-
-#this is the report route, so I rendered it on report.html
-@app.route('/reports')
-def report_page():
-    return render_template('report.html')
-
-
-
-#this is original route, i have created it long before rendering it to report.html.
-@app.route('/api/reports', methods=['GET'])
-def get_reports():
-    return jsonify(reports)
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
-
-
-
-
-    
          
+
+         <div style="width: 400px;height: 400px;border-radius: 5px;padding: 5px; box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.3);background-color: white;
+           margin: auto;margin-top: 60px;align-items: center;">
+
+            <img id="weathericon" style="margin-left: 150px;">
+            
+            
+            <p id="temp" style="font-size: 40px;margin-left: 150px;"></p>
+
+            <p id="name" style="font-size: large;font-weight: bold;margin-left: 150px;"></p>
+            <p id="humidity" style="font-size: 20px;margin-left: 150px;"></p>
+            <p id="speed" style="font-size: 20px;margin-left: 150px;"></p>
+            <p id="condition" style="margin-left: 150px;font-size: 20px;"></p>
+
+         </div>
+
+         
+
+    </body>
+
+
+    <script>
+
+      
+
+
+        const fetchweather = document.getElementById('weather')
+        const forecast = document.getElementById('5dayforecast')
+        
+
+        forecast.addEventListener('click', function() {
+            const city = document.getElementById('cityInput').value;
+           
+
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=cccd4f6f5e38ae57702d5cd7e5addd28&units=metric`)
+            .then(response => response.json())
+            .then(data => {
+                data.list[0].main.temp
+
+                let output = "";
+
+                data.list.forEach(item => {
+                    if(item.dt_txt.includes("18:00:00")) {
+
+                        output += 
+                            `${item.dt_txt}${item.main.temp}<br>`
+
+                    }
+                   
+                }
+
+                )
+
+                document.getElementById("5daytemp").innerHTML = output;
+                  
+                  })
+            })
+        
+    
+        
+       
+        fetchweather.addEventListener('click', function() {
+            const city = document.getElementById('cityInput').value;
+            
+
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=cccd4f6f5e38ae57702d5cd7e5addd28&units=metric`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('temp').innerText = `${Math.round(data.main.temp)}°C`
+                document.getElementById('name').innerText = `${data.name}` 
+                document.getElementById('humidity').innerText = `Humidity:${data.main.humidity}%`
+                document.getElementById('speed').innerText = `Wind:${data.wind.speed}m/s`
+                document.getElementById('condition').innerText = `${data.weather[0].main}`
+                document.getElementById('weathericon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+
+
+                
+                   
+            })
+
+
+            
+        }) 
+
+
+    </script>
+
+
+</html>
 
